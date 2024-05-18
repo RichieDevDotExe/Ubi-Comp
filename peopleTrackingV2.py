@@ -51,9 +51,9 @@ def combineIDs():
     print("combine")
 
 def train():
-    model = YOLO('yolov8n.pt')
+    model = YOLO('yolov8n.pt', device='gpu')
 
-    results = model.train(data='data.yaml',epochs = 100, imgsz=640)
+    results = model.train(data='Ubi-Comp-Me-2//data.yaml',epochs = 100, imgsz=640, device=0)
 
 
 #scanRoom()
