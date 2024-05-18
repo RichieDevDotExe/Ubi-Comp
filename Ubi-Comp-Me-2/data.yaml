@@ -1,0 +1,12 @@
+names:
+- Rich
+nc: 1
+roboflow:
+  license: MIT
+  project: ubi-comp-me-2e1ec
+  url: https://universe.roboflow.com/ubi-q3azz/ubi-comp-me-2e1ec/dataset/2
+  version: 2
+  workspace: ubi-q3azz
+test: ../test/images
+train: Ubi-Comp-Me-2/train/images
+val: Ubi-Comp-Me-2/valid/images
