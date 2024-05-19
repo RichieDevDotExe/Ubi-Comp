@@ -3,9 +3,9 @@ import os
 import time
 from pathlib import Path
 from ultralytics.utils.plotting import save_one_box
-import torch 
+#import torch 
 
-device = torch.device("cpu")
+#device = torch.device("cpu")
 
 
 def scanRoom():
@@ -132,15 +132,18 @@ def combineIDs():
 
 def train():
     model = YOLO('yolov8n.pt')
-    model.to(device)
+    #model.to(device)
 
     results = model.train(data='Ubi-Comp-Me-2//data.yaml',epochs = 100, imgsz=640, device=0)
 
 def trainedScan():
     model = YOLO('best.pt')
-    results = model.track(source="0",show=True, stream=True,classes=0)
+    print(model.names)
+    results = model.track(source="0",show=True, stream=True,classes=0,conf=0.60)
+    for result in results:
+        print("")
 
-scanRoom()
+#scanRoom()
 
 trainedScan()
 
