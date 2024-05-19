@@ -7,6 +7,11 @@ from ultralytics.utils.plotting import save_one_box
 
 #device = torch.device("cpu")
 
+def main():
+    model = YOLO('best.pt')
+    results = model.track(source="0",show=True, stream=True,conf = 0.7)
+    for result in results:
+        print(trainedScan(result))
 
 def scanRoom():
     model = YOLO('yolov8n.pt')
@@ -79,7 +84,7 @@ def getTargetTemp(inRoom):
     
     return targetTemp
 
-def scanRoom():
+def scanRoomL():
     model = YOLO('yolov8n.pt')
     results = model.track(source="0",show=True, stream=True,classes=0)
     timecheck = 0
@@ -136,14 +141,19 @@ def train():
 
     results = model.train(data='Ubi-Comp-Me-2//data.yaml',epochs = 100, imgsz=640, device=0)
 
-def trainedScan():
-    model = YOLO('best.pt')
-    print(model.names)
-    results = model.track(source="0",show=True, stream=True,classes=0,conf=0.60)
-    for result in results:
-        print("")
+def trainedScan(result):
+    peopleDetected = []
+    resArray = result.numpy()
+    if(type(resArray.boxes) != type(None)):
+        boxes = resArray.boxes
+
+        for p in boxes.cls:
+            peopleDetected.append(int(p))
+    
+    return peopleDetected
 
 #scanRoom()
 
-trainedScan()
+#trainedScan()
 
+main()
