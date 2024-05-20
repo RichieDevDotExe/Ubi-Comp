@@ -152,6 +152,41 @@ def trainedScan(result):
     
     return peopleDetected
 
+# #loosly based off sample code found in person_reid.py in openCV library
+# def collect_images(pathToImgs):
+#     img_list = []
+#     with os.scandir(path=pathToImgs) as entries:
+#         for entry in entries:
+#             if entry.is_file():
+#                 img = cv.imread(entry.path)
+#                 if img is None:
+#                     continue
+#                 img_list.append(img)
+#     return np.array(img_list)
+
+# def scanIDFolders(pathToIDFolders):
+#     idImages = []
+#     with os.scandir(path=pathToIDFolders) as Folders:
+#         for folder in Folders:
+#             if folder.is_dir():
+#                 idList = collect_images(folder.path)
+#                 idImages.append(idList)
+#             #print("foldername "+ str(folder.name))
+#             #print("folder legnth "+ str(len(idList)))
+#     return np.array(idImages)
+
+
+
+def combineIDs():
+    #hello
+    print("combine")
+
+#get model from https://drive.google.com/drive/folders/1wFGcuolSzX3_PqNKb4BAV3DNac7tYpc2     
+img_feat, img_names = REID.extract_feature(img_dir="IDs//1.0",model_path="youtu_reid_baseline_lite.onnx",batch_size=32, resize_h=256,resize_w=128,backend=cv.dnn.DNN_BACKEND_OPENCV,target=cv.dnn.DNN_TARGET_CPU)
+print(img_feat)
+print("=========")
+print(img_names)
+
 #scanRoom()
 
 #trainedScan()
