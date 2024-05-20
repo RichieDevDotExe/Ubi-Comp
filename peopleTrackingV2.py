@@ -8,17 +8,11 @@ import cv2 as cv
 import numpy as np
 from scipy.spatial import distance
 import matplotlib.pyplot as plt
-
+import tkinter as tk
 
 #import torch 
 
 #device = torch.device("cpu")
-
-def main():
-    model = YOLO('best.pt')
-    results = model.track(source="0",show=True, stream=True,conf = 0.7)
-    for result in results:
-        print(trainedScan(result))
 
 def scanRoom():
     model = YOLO('yolov8n.pt')
@@ -89,7 +83,7 @@ def getTargetTemp(inRoom):
                 targetTemp += baselineTemp
         targetTemp /= len(inRoom)
     
-    return targetTemp
+    return float(targetTemp)
 
 
 def combineIDs():
@@ -169,6 +163,27 @@ def combineIDs(IDFeat, IDNames):
     #hello
     print("combine")
 
+def main():
+    model = YOLO('best.pt')
+    results = model.track(source="0",show=True, stream=True,conf = 0.7)
+
+    # GUI
+    window = tk.Tk()
+
+    tk.Label(text="The Smartest Thermostat",font=("Courier", 30)).pack()
+
+    tk.Label(text="Target temperature:").pack()
+    temperatureString = tk.StringVar()
+    temperatureLabel = tk.Label(textvariable=temperatureString)
+    temperatureString.set("0°C")
+    temperatureLabel.pack()
+
+    for result in results:
+        scan = trainedScan(result)
+        print(scan)
+        temperatureString.set(str(getTargetTemp(scan))+"°C")
+        window.update()
+
 # img_feat, img_names = REID.extract_feature(img_dir="IDs//1.0",model_path="youtu_reid_baseline_lite.onnx",batch_size=32, resize_h=256,resize_w=128,backend=cv.dnn.DNN_BACKEND_CUDA,target=cv.dnn.DNN_TARGET_CUDA)
 # print(img_feat)
 # print("=========")
@@ -180,8 +195,8 @@ def combineIDs(IDFeat, IDNames):
 
 #saveFeatureExtraction()
 
-IDFeat, IDNames = scanIDFolders("IDs")
-saveFeatureExtraction(idFeat=IDFeat,idNames=IDNames)
+#IDFeat, IDNames = scanIDFolders("IDs")
+#saveFeatureExtraction(idFeat=IDFeat,idNames=IDNames)
 #visualiseExtraction(idFeat=IDFeat,idNames=IDNames)
 
 
@@ -192,4 +207,4 @@ saveFeatureExtraction(idFeat=IDFeat,idNames=IDNames)
 
 #trainedScan()
 
-#main()
+main()
