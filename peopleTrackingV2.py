@@ -186,15 +186,15 @@ def main():
     tk.Entry(textvariable=prefVar0,width=5).pack()
     tk.Label(text="Preference for Lyra:").pack()
     prefVar1 = tk.StringVar()
-    prefVar1.set("20")
+    prefVar1.set("19")
     tk.Entry(textvariable=prefVar1,width=5).pack()
     tk.Label(text="Preference for Alice:").pack()
     prefVar2 = tk.StringVar()
-    prefVar2.set("20")
+    prefVar2.set("17")
     tk.Entry(textvariable=prefVar2,width=5).pack()
     tk.Label(text="Preference for Bob:").pack()
     prefVar3 = tk.StringVar()
-    prefVar3.set("20")
+    prefVar3.set("22")
     tk.Entry(textvariable=prefVar3,width=5).pack()
 
     def setPref():
@@ -249,11 +249,23 @@ def main():
         ]
 
         def startDummy():
+            peopleNames = ["Rich", "Lyra", "Alice", "Bob"]
+            roomString = tk.StringVar()
+            roomString.set("People in the room:")
+            tk.Label(textvariable=roomString).pack()
             for dataPoint in data:
                 print(dataPoint)
                 temperatureString.set(str(getTargetTemp(dataPoint))+"°C")
+                tempString = ""
+                for i in dataPoint:
+                    if tempString != "":
+                        tempString += ", "
+                    tempString += peopleNames[i]
+                if tempString == "":
+                    tempString = "Nobody!"
+                roomString.set("People in the room: "+tempString)
                 window.update()
-                time.sleep(1)
+                time.sleep(1.5)
             tk.Label(text="Finished!").pack()
 
         # button for data processing
