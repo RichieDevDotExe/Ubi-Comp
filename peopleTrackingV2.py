@@ -58,14 +58,13 @@ def scanRoom():
 
 # Dictionary stores preferred temperature in celsius
 tempPreferences = {
-    0: 19,
-    1: 16,
-    2: 22,
-    3: 21,
-    4: 17
+    0: 20,
+    1: 19,
+    2: 17,
+    3: 22,
 }
 # Baseline temperature, for if nobody is in the room
-baselineTemp = 15
+baselineTemp = 10
 # function to decide a target temperature
 def getTargetTemp(inRoom):
     # If nobody's in the room, keep it at baseline temperature
@@ -172,11 +171,40 @@ def main():
 
     tk.Label(text="The Smartest Thermostat",font=("Courier", 30)).pack()
 
-    tk.Label(text="Target temperature:").pack()
+    tk.Label(text="\nTarget temperature:").pack()
     temperatureString = tk.StringVar()
-    temperatureLabel = tk.Label(textvariable=temperatureString)
     temperatureString.set("0°C")
-    temperatureLabel.pack()
+    tk.Label(textvariable=temperatureString).pack()
+
+    tk.Label(text="\nAll temperatures should be in celsius.\nBaseline temperature:").pack()
+    baselineVar = tk.StringVar()
+    baselineVar.set("10")
+    tk.Entry(textvariable=baselineVar,width=5).pack()
+    tk.Label(text="Preference for Rich:").pack()
+    prefVar0 = tk.StringVar()
+    prefVar0.set("20")
+    tk.Entry(textvariable=prefVar0,width=5).pack()
+    tk.Label(text="Preference for Lyra:").pack()
+    prefVar1 = tk.StringVar()
+    prefVar1.set("20")
+    tk.Entry(textvariable=prefVar1,width=5).pack()
+    tk.Label(text="Preference for Alice:").pack()
+    prefVar2 = tk.StringVar()
+    prefVar2.set("20")
+    tk.Entry(textvariable=prefVar2,width=5).pack()
+    tk.Label(text="Preference for Bob:").pack()
+    prefVar3 = tk.StringVar()
+    prefVar3.set("20")
+    tk.Entry(textvariable=prefVar3,width=5).pack()
+
+    def setPref():
+        global baselineTemp
+        baselineTemp       = float(baselineVar.get())
+        tempPreferences[0] = float(prefVar0.get())
+        tempPreferences[1] = float(prefVar1.get())
+        tempPreferences[2] = float(prefVar2.get())
+        tempPreferences[3] = float(prefVar3.get())
+    tk.Button(text="Set preferences", command=setPref, width=20).pack()
 
     for result in results:
         scan = trainedScan(result)
