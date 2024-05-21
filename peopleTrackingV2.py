@@ -82,7 +82,7 @@ def getTargetTemp(inRoom):
                 targetTemp += baselineTemp
         targetTemp /= len(inRoom)
     
-    return float(targetTemp)
+    return float(round(targetTemp,1))
 
 
 def combineIDs():
@@ -164,7 +164,7 @@ def combineIDs(IDFeat, IDNames):
 
 def main():
     model = YOLO('best.pt')
-    results = model.track(source="0",show=True, stream=True,conf = 0.7)
+    results = model.track(source="inputvideo.mp4",show=True, stream=True,conf = 0.7)
 
     # GUI
     window = tk.Tk()
@@ -206,11 +206,62 @@ def main():
         tempPreferences[3] = float(prefVar3.get())
     tk.Button(text="Set preferences", command=setPref, width=20).pack()
 
-    for result in results:
-        scan = trainedScan(result)
-        print(scan)
-        temperatureString.set(str(getTargetTemp(scan))+"°C")
-        window.update()
+    if True:
+        for result in results:
+            scan = trainedScan(result)
+            print(scan)
+            temperatureString.set(str(getTargetTemp(scan))+"°C")
+            window.update()
+    else:
+        data = [
+            [],
+            [0],
+            [0],
+            [0, 1],
+            [0, 1],
+            [0, 1],
+            [1],
+            [],
+            [],
+            [1],
+            [1, 2],
+            [1, 2],
+            [0, 1, 2],
+            [0, 2],
+            [0, 2, 3],
+            [2, 3],
+            [3],
+            [],
+            [],
+            [3],
+            [3],
+            [1, 3],
+            [1, 3],
+            [1, 2, 3],
+            [1, 2, 3],
+            [0, 1, 2, 3],
+            [0, 1, 2, 3],
+            [0, 1, 2],
+            [0, 1],
+            [0],
+            [],
+            []
+        ]
+
+        def startDummy():
+            for dataPoint in data:
+                print(dataPoint)
+                temperatureString.set(str(getTargetTemp(dataPoint))+"°C")
+                window.update()
+                time.sleep(1)
+            tk.Label(text="Finished!").pack()
+
+        # button for data processing
+        tk.Button(text="Start dummy data", command=startDummy, width=20).pack()
+
+        while True:
+            window.update()
+
 
 # img_feat, img_names = REID.extract_feature(img_dir="IDs//1.0",model_path="youtu_reid_baseline_lite.onnx",batch_size=32, resize_h=256,resize_w=128,backend=cv.dnn.DNN_BACKEND_CUDA,target=cv.dnn.DNN_TARGET_CUDA)
 # print(img_feat)
