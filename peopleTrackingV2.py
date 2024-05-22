@@ -164,10 +164,10 @@ def combineIDs(IDFeat, IDNames):
 
 def main():
     model = YOLO('best.pt')
-    results = model.track(source="inputvideo.mp4",show=True, stream=True,conf = 0.7)
+    results = model.track(source="inputvideo.mp4",show=True, stream=True,conf = 0.9)
 
     # GUI
-    window = tk.Tk()
+    window = tk.Tk()``
 
     tk.Label(text="The Smartest Thermostat",font=("Courier", 30)).pack()
 
@@ -206,7 +206,7 @@ def main():
         tempPreferences[3] = float(prefVar3.get())
     tk.Button(text="Set preferences", command=setPref, width=20).pack()
 
-    if True:
+    if False:
         for result in results:
             scan = trainedScan(result)
             print(scan)
